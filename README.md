@@ -48,7 +48,7 @@ In addition to above you can use other html props on Ymage like `id`, `className
 <br/>
 
 ### Styling
-In order to properly create the loading shape of the Ymage, you can size the it with two of the three properties (`w` + `h`), (`w` + `wh`) or (`h` + `wh`)
+In order to properly create the loading shape of the Ymage, you can size it with two properties (`w` + `h`), (`w` + `wh`) or (`h` + `wh`)
 
 |Property|CSS|
 |-|-|
