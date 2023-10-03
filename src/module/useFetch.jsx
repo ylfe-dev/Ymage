@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect, useMemo  } from 'react';
-import { fetcher } from './fetchers';
+import { fetcher } from './fetcher';
 
 
 const defaults = {
@@ -37,7 +37,7 @@ const useFetcher = (options) => {
         setTimeout(()=>{
             request.current.state = "OK";
             setRetrieved(data);
-        }, Math.random()*800);
+        }, Math.random()*2000);
     }
 
     const onError = (err) => {

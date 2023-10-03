@@ -1,4 +1,4 @@
-figure.Ymage {
+.Ymage {
 	background-color: #d0d0d0;
 	display: flex;
     align-content: center;
@@ -6,12 +6,12 @@ figure.Ymage {
 	overflow: hidden;
     position:relative;
 
-    svg.ymage-spinner {
-        width:min(6rem, 50%);
+    svg{
         align-self: center;
-        color:white;
-        font-size: 3rem;
-        animation: spinning 1.5s normal  infinite;
+        width:min(6rem, 50%);
+        &.ymage-spinner {
+            animation: spinning 1.5s normal  infinite;
+        }
     }
     img {
 		object-fit: cover;
@@ -20,8 +20,9 @@ figure.Ymage {
         &.fade-in {
             animation: 1s fadeIn;
         }
-        &.protected {
+        &.copyright {
             pointer-events:none;
+            user-select:none;
         }
 
     }
@@ -65,3 +66,5 @@ figure.Ymage {
   from { opacity: 1 }
     to { opacity: 0 }
 }
+
+

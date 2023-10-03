@@ -5,11 +5,10 @@ import useIntersectionObserver from "./useIntersectionObserver"
 
 const cached_images = new Map();
 
-export const Ymage = ({url, copyright, style, type="img", onLoad, className="", ...props}) => {
+export const Ymage = ({url, copyright, lazy="200px", type="img", onLoad, style, className="", ...props}) => {
 	const container = useRef();
-	const active = useIntersectionObserver(container, "200px");
+	const isVisible = (lazy === false) ? true : useIntersectionObserver(container, lazy);
     const options = {as: type, copyright: copyright}; 
-
 
     function stylesFromProps(props) {
         const styles = {};
@@ -34,7 +33,7 @@ export const Ymage = ({url, copyright, style, type="img", onLoad, className="", 
         ref={container} 
         className={"Ymage " + className}
         onContextMenu={contextMenuHandler}>
-			{active ? 
+			{isVisible ? 
                 cached_images.has(url) ? 
                     <PrintImage url={cached_images.get(url).blob_url} options={options} />
                 :   <FetchImage url={url} options={options} onLoad={onLoad}/>
@@ -72,10 +71,10 @@ const PrintImage = ({url, options}) => {
     if(options.as === "img")
         return <img
             src={url} 
-            className = {(options.entry ? options.entry : "") + (options.copyright ? " protected" : "")}
+            className = {(options.entry ? options.entry : "") + (options.copyright ? " copyright" : "")}
             />
     else return <div 
-            className = {options.entry ? options.entry : ""} 
+            className = {options.entry ? options.entry : "" + (options.copyright ? " copyright" : "")} 
             style = {{backgroundImage:"url('" + url + "')"}}
             ></div>
 }
@@ -84,17 +83,15 @@ const PrintImage = ({url, options}) => {
 const Loader = () =>{
 	return( 
         <svg 
-            version="1.1" 
             className="ymage-spinner" 
             xmlns="http://www.w3.org/2000/svg" 
             xmlnsXlink="http://www.w3.org/1999/xlink" 
-            x="0px" y="0px"
             viewBox="0 0 100 100" 
-            enableBackground="new 0 0 0 0" 
-            xmlSpace="preserve">
+            enableBackground="new 0 0 0 0" >
 
             <path fill="#fff" d="M73,50c0-12.7-10.3-23-23-23S27,37.3,27,50 M30.9,50c0-10.5,8.5-19.1,19.1-19.1S69.1,39.5,69.1,50"></path>
         </svg>
     )
 }
+
 
