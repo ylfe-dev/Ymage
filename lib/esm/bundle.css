@@ -1,0 +1,78 @@
+@charset "UTF-8";
+.Ymage {
+  background-color: #d0d0d0;
+  display: flex;
+  align-content: center;
+  justify-content: center;
+  overflow: hidden;
+  position: relative;
+}
+.Ymage svg {
+  align-self: center;
+  width: min(6rem, 50%);
+}
+.Ymage svg.ymage-spinner {
+  animation: spinning 1.5s normal infinite;
+}
+.Ymage img {
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+}
+.Ymage img.fade-in {
+  animation: 1s fadeIn;
+}
+.Ymage img.copyright {
+  pointer-events: none;
+  user-select: none;
+}
+.Ymage div {
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+}
+.Ymage div.fade-in {
+  animation: 1s fadeIn;
+}
+.Ymage.copyright::after {
+  content: "©";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6392156863);
+  font-size: 4rem;
+  color: white;
+  font-family: Arial;
+  text-align: center;
+  display: flex;
+  opacity: 0;
+  justify-content: center;
+  align-items: center;
+  animation: 1s fadeOut;
+}
+
+@keyframes spinning {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}

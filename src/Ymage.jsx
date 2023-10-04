@@ -1,11 +1,11 @@
 import { useRef } from 'react';
 import './Ymage.scss';
-import useFetch from "./useFetch";
-import useIntersectionObserver from "./useIntersectionObserver"
+import useFetch from "./useFetch.jsx";
+import useIntersectionObserver from "./useIntersectionObserver.jsx"
 
 const cached_images = new Map();
 
-export const Ymage = ({url, copyright, lazy="200px", type="img", onLoad, style, className="", ...props}) => {
+export default function Ymage({url, copyright, lazy="200px", type="img", onLoad, style, className="", ...props}) {
 	const container = useRef();
 	const isVisible = (lazy === false) ? true : useIntersectionObserver(container, lazy);
     const options = {as: type, copyright: copyright}; 

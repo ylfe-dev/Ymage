@@ -19,7 +19,7 @@ import {Ymage} from 'ymage'
 
 ## Usage
 
-<img align="right" width="132" height="200" style="margin: 10px" src="./public/out3.gif" >
+<img align="right" width="132" height="200" style="margin: 1rem" src="./public/out3.gif" >
 
 ```JavaScript
 <Ymage url="fruit.jpg" w={200} h={300} r={10}/>
@@ -48,7 +48,7 @@ In addition to above you can use other html props on Ymage like `id`, `className
 <br/>
 
 ### Styling
-In order to properly create the loading shape of the Ymage, you can size it with two properties (`w` + `h`), (`w` + `wh`) or (`h` + `wh`)
+In order to properly create the loading shape of the Ymage, you can size the it with two of the three properties (`w` + `h`), (`w` + `wh`) or (`h` + `wh`)
 
 |Property|CSS|
 |-|-|
