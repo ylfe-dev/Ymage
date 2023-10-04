@@ -1,11 +1,11 @@
 {
   "name": "ymage",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "type": "module",
   "description": "React-native component for fast, reliable and estetic image handing.",
   "main": "./lib/cjs/index.js",
   "module": "./lib/esm/index.js",
-  "files": ["/lib","/assets"],
+  "files": ["/lib"],
   "scripts": {
     "build": "rollup -c",
     "build:watch": "rollup -c --watch"
@@ -17,11 +17,12 @@
     "@rollup/plugin-node-resolve": "^15.0.1",
     "@types/react": "^18.2.15",
     "@types/react-dom": "^18.2.7",
+    "postcss": "^8.4.31",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "rollup": "^3.2.3",
     "rollup-plugin-peer-deps-external": "^2.2.4",
-    "rollup-plugin-scss": "^4.0.0",
+    "rollup-plugin-postcss": "^4.0.2",
     "sass": "^1.68.0"
   },
   "repository": {
