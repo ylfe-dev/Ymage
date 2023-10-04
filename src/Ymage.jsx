@@ -1,3 +1,5 @@
+import React from 'react'
+
 import { useRef } from 'react';
 import './Ymage.scss';
 import useFetch from "./useFetch.jsx";

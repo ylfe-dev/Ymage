@@ -2,12 +2,10 @@
   "name": "ymage",
   "version": "1.0.0",
   "type": "module",
-  "description": "React-native component for fast, reliable and estetic image loading, displaying and protecting.",
+  "description": "React-native component for fast, reliable and estetic image handing.",
   "main": "./lib/cjs/index.js",
   "module": "./lib/esm/index.js",
-  "files": [
-    "/lib"
-  ],
+  "files": ["/lib","/assets"],
   "scripts": {
     "build": "rollup -c",
     "build:watch": "rollup -c --watch"

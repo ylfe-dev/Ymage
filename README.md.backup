@@ -24,7 +24,7 @@ import {Ymage} from 'ymage'
 
 
 ```JavaScript
-<Ymage url="fruit.jpg" w={300} h={200} r={10}/>
+<Ymage url="fruit.jpg" w={200} h={300} r={10}/>
 ```
 
 Or `style` equivalent:
