@@ -1,11 +1,8 @@
 import React from 'react'
-
-import { useRef } from 'react';
 import './Ymage.scss';
-import useFetch from "./useFetch.jsx";
-import useIntersectionObserver from "./useIntersectionObserver.jsx"
 
-const cached_images = new Map();
+import { useRef, useState } from 'react';
+import useIntersectionObserver from "./useIntersectionObserver.jsx"
 
 export default function Ymage({url, copyright, lazy="200px", type="img", onLoad, style, className="", ...props}) {
 	const container = useRef();
@@ -35,38 +32,27 @@ export default function Ymage({url, copyright, lazy="200px", type="img", onLoad,
         ref={container} 
         className={"Ymage " + className}
         onContextMenu={contextMenuHandler}>
-			{isVisible ? 
-                cached_images.has(url) ? 
-                    <PrintImage url={cached_images.get(url).blob_url} options={options} />
-                :   <FetchImage url={url} options={options} onLoad={onLoad}/>
-            : null }
+			{isVisible ? <FetchImageNative url={url} options={options} onLoad={onLoad}/> : null }
 		</figure>
 	)
 }
 
-
-const FetchImage = ({url, options, onLoad}) => {
-	const [data, Fetch] = useFetch().blob();
- 
-    return(
-        <Fetch url={url} loader={<Loader/>}>
-		    <CacheImage url={url} blob={data} options={options} onLoad={onLoad}/>
-		</Fetch>
-    )
-}
-
-const CacheImage = ({url, blob, options, onLoad}) => {
-    const blob_url = URL.createObjectURL(blob);
+const FetchImageNative = ({url, options, onLoad}) => {
+    const [imageLoaded, setImageLoaded] = useState(false);
     const img_tmp = new Image();
-    img_tmp.src = blob_url;
+    img_tmp.src = url;
     img_tmp.onload = () => {
-        const img_size = {x: img_tmp.width, y: img_tmp.height};
-        cached_images.set(url, {blob_url: blob_url, size: img_size});
-        if(onLoad) onLoad({blob_url: blob_url, size: img_size})
-        img_tmp.src = null; 
+        setTimeout(()=>{
+            if(onLoad) onLoad({x: img_tmp.width, y: img_tmp.height})
+            img_tmp.src = null; 
+            setImageLoaded(true);
+        }, Math.random()*3000);
     }
 
-    return <PrintImage url={blob_url} options={{...options, entry: "fade-in"}}/>
+    return imageLoaded ? 
+        <PrintImage url={url} options={{...options, entry: "fade-in"}}/>
+        :
+        <Loader/>
 }
 
 const PrintImage = ({url, options}) => {
