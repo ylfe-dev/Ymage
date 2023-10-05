@@ -1,7 +1,7 @@
 import React from 'react'
 import './Ymage.scss';
 
-import { useRef, useState } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import useIntersectionObserver from "./useIntersectionObserver.jsx"
 
 export default function Ymage({url, copyright, lazy="200px", type="img", onLoad, style, className="", ...props}) {
@@ -38,31 +38,43 @@ export default function Ymage({url, copyright, lazy="200px", type="img", onLoad,
 }
 
 const FetchImageNative = ({url, options, onLoad}) => {
-    const [imageLoaded, setImageLoaded] = useState(false);
+    const [showImage, setShowImage] = useState(true);
+    const loading = useRef(true);
+    const fade = useRef(false);
+
+    useEffect(()=>{
+       setTimeout(()=>{
+           if(loading.current)
+               setShowImage(false)
+       }, 17)
+    },[])
+
     const img_tmp = new Image();
     img_tmp.src = url;
     img_tmp.onload = () => {
-        setTimeout(()=>{
-            if(onLoad) onLoad({x: img_tmp.width, y: img_tmp.height})
-            img_tmp.src = null; 
-            setImageLoaded(true);
-        }, Math.random()*3000);
+        loading.current = false;
+        if(onLoad) onLoad({x: img_tmp.width, y: img_tmp.height})
+        img_tmp.src = null;
+        if(!showImage){
+            setShowImage(true);
+            fade.current = true;
+        }
     }
 
-    return imageLoaded ? 
-        <PrintImage url={url} options={{...options, entry: "fade-in"}}/>
-        :
-        <Loader/>
+return showImage ? 
+    <PrintImage url={url} options={{...options, fade: fade.current}}/>
+    :
+    <Loader/>
 }
 
 const PrintImage = ({url, options}) => {
     if(options.as === "img")
         return <img
             src={url} 
-            className = {(options.entry ? options.entry : "") + (options.copyright ? " copyright" : "")}
+            className = {(options.fade ? "fade-in" : "") + (options.copyright ? " copyright" : "")}
             />
     else return <div 
-            className = {options.entry ? options.entry : "" + (options.copyright ? " copyright" : "")} 
+            className = {(options.fade ? "fade-in" : "") + (options.copyright ? " copyright" : "")} 
             style = {{backgroundImage:"url('" + url + "')"}}
             ></div>
 }
