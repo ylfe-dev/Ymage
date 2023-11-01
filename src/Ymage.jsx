@@ -3,8 +3,21 @@ import './Ymage.scss';
 
 import { useRef, useState, useEffect } from 'react';
 import useIntersectionObserver from "./useIntersectionObserver.jsx"
+import useImageFetcher from './useImageFetcher.jsx'
 
-export default function Ymage({url, copyright, lazy="200px", type="img", onLoad, style, className="", ...props}) {
+
+export default function Ymage({
+    url, 
+    copyright, 
+    lazy="200px", 
+    type="img", 
+    onLoad, 
+    onSize,
+    style,
+    className="", 
+    ...props
+}) {
+
 	const container = useRef();
 	const isVisible = (lazy === false) ? true : useIntersectionObserver(container, lazy);
     const options = {as: type, copyright: copyright}; 
@@ -20,7 +33,7 @@ export default function Ymage({url, copyright, lazy="200px", type="img", onLoad,
 
     function contextMenuHandler(){
         if(options.copyright) {
-            container.current.classList.add("copyright")
+            container.current.classList.add("copyright");
             setTimeout(() => container.current.classList.remove("copyright"), 1000);
         }
     }
@@ -32,49 +45,59 @@ export default function Ymage({url, copyright, lazy="200px", type="img", onLoad,
         ref={container} 
         className={"Ymage " + className}
         onContextMenu={contextMenuHandler}>
-			{isVisible ? <FetchImageNative url={url} options={options} onLoad={onLoad}/> : null }
+			{isVisible ? <FetchImage url={url} options={options} onSize={onSize} onLoad={onLoad}/> : null }
 		</figure>
 	)
 }
 
-const FetchImageNative = ({url, options, onLoad}) => {
-    const [showImage, setShowImage] = useState(true);
-    const loading = useRef(true);
+
+const FetchImage = ({url, options, onLoad, onSize}) => {
+    const imageData = useImageFetcher(url, onSize, onLoad);
+    const [showLoader, setShowLoader] = useState(true);
     const fade = useRef(false);
 
     useEffect(()=>{
-       setTimeout(()=>{
-           if(loading.current)
-               setShowImage(false)
-       }, 17)
+
+        console.log("new urlData: "+ imageData)
+        if(showLoader && imageData)
+            setTimeout(() => setShowLoader(false), 1000)
+    },[imageData])
+
+    useEffect(()=>{
+        if(imageData === null){
+            fade.current = true;
+            console.log("image fetching = fading/loading")
+        }
     },[])
 
-    const img_tmp = new Image();
-    img_tmp.src = url;
-    img_tmp.onload = () => {
-        loading.current = false;
-        if(onLoad) onLoad({x: img_tmp.width, y: img_tmp.height})
-        img_tmp.src = null;
-        if(!showImage){
-            setShowImage(true);
-            fade.current = true;
-        }
-    }
 
-return showImage ? 
-    <PrintImage url={url} options={{...options, fade: fade.current}}/>
-    :
-    <Loader/>
+    return (<>
+        {showLoader ? <Loader/> : null}
+        {imageData ? 
+            <PrintImage url={imageData} options={{...options, fade: fade.current}}/> : null}
+        </>)
 }
 
+
 const PrintImage = ({url, options}) => {
+    const imageRef = useRef(null);
+    useEffect(()=>{
+        imageRef.current.src = null;
+        imageRef.current.src = url;
+
+    }, [url])
+
     if(options.as === "img")
         return <img
-            src={url} 
-            className = {(options.fade ? "fade-in" : "") + (options.copyright ? " copyright" : "")}
+            ref={imageRef}
+            className = {
+                  (options.fade ? "fade-in" : "") 
+                + (options.copyright ? " copyright" : "")}
             />
     else return <div 
-            className = {(options.fade ? "fade-in" : "") + (options.copyright ? " copyright" : "")} 
+            className = {
+                  (options.fade ? "fade-in" : "") 
+                + (options.copyright ? " copyright" : "")} 
             style = {{backgroundImage:"url('" + url + "')"}}
             ></div>
 }
@@ -93,5 +116,6 @@ const Loader = () =>{
         </svg>
     )
 }
+
 
 

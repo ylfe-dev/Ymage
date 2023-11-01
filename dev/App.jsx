@@ -14,7 +14,13 @@ export function App() {
         "dev/assets/p-4.jpg",
         "dev/assets/p-5.jpg",
         "dev/assets/p-6.jpg",
-        "dev/assets/p-7.jpg"
+        "dev/assets/p-7.jpg",
+        "dev/assets/pro1.jpg",
+        "dev/assets/webp60.webp"
+    ];
+    const cross = [
+        "https://picsum.photos/200/300",
+        ""
     ];
 
     const clickHandler = () =>{
@@ -26,10 +32,7 @@ export function App() {
             <button onClick={clickHandler}>Toggle</button>
             <p>{state? "on" : "off"}</p>
             {state ? <>
-                <Ymage url={url[0]} w={300} r={10} ratio={3/2} />
-                <Ymage url={url[2]} type="div" copyright style={{width:300, height:200, borderRadius:10}} />
-                <Ymage url={url[4]} style={{width:300, height:200, borderRadius:10}} />
-                <Ymage url={url[6]} style={{width:300, height:200, borderRadius:10}} />
+                <Ymage url={url[8]} w={300} wh={4/3} r={10} onSize={size => console.log("onSize: "+size.x+"/"+size.y)} />
             </>
                 : null 
             }
@@ -37,4 +40,5 @@ export function App() {
     )
 }
 
+               // <img src={url[10]} alt="big webp" width="600" />
 
