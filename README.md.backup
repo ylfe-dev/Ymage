@@ -54,9 +54,6 @@ In order to properly create the loading shape of the Ymage, you can size it with
 |h|`height`|
 |wh|`aspect-ratio` (width / height)|
 |r|`border-radius`|
-
-<br/>
-
 ### Behavior
 In addition to following you can use other html props on Ymage like `id`, `className`, `onClick` etc.
 
