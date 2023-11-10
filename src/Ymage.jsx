@@ -57,17 +57,13 @@ const FetchImage = ({url, options, onLoad, onSize}) => {
     const fade = useRef(false);
 
     useEffect(()=>{
-
-        console.log("new urlData: "+ imageData)
         if(showLoader && imageData)
             setTimeout(() => setShowLoader(false), 1000)
     },[imageData])
 
     useEffect(()=>{
-        if(imageData === null){
+        if(imageData === null)
             fade.current = true;
-            console.log("image fetching = fading/loading")
-        }
     },[])
 
 
@@ -82,9 +78,11 @@ const FetchImage = ({url, options, onLoad, onSize}) => {
 const PrintImage = ({url, options}) => {
     const imageRef = useRef(null);
     useEffect(()=>{
-        imageRef.current.src = null;
-        imageRef.current.src = url;
-
+        if(options.as === "img"){
+            imageRef.current.src = null;
+            imageRef.current.src = url;
+        } else 
+            imageRef.current.style.backgroundImage="url('"+url+"')";
     }, [url])
 
     if(options.as === "img")
@@ -95,10 +93,10 @@ const PrintImage = ({url, options}) => {
                 + (options.copyright ? " copyright" : "")}
             />
     else return <div 
+            ref={imageRef}
             className = {
                   (options.fade ? "fade-in" : "") 
                 + (options.copyright ? " copyright" : "")} 
-            style = {{backgroundImage:"url('" + url + "')"}}
             ></div>
 }
 

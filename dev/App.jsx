@@ -32,7 +32,17 @@ export function App() {
             <button onClick={clickHandler}>Toggle</button>
             <p>{state? "on" : "off"}</p>
             {state ? <>
-                <Ymage url={url[8]} w={300} wh={4/3} r={10} onSize={size => console.log("onSize: "+size.x+"/"+size.y)} />
+                <Ymage 
+                    url={url[7]} 
+                    w={300} wh={3/2} r={10} 
+                    type="div"
+                    onSize={size => console.log("onSize: "+size.x+"/"+size.y)} 
+                    copyright />
+                <Ymage 
+                    url={url[6]} 
+                    w={300} wh={3/2} r={10} 
+                    onSize={size => console.log("onSize: "+size.x+"/"+size.y)} />
+
             </>
                 : null 
             }

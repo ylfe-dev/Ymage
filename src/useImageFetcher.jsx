@@ -53,8 +53,8 @@ export default function useImageFetcher(src, onSize, onLoad) {
                                     if(!durl)
                                         publishDataURL();
                                     setImageCache(durl);
-                                    onLoad();
                                     onSizeHandler();
+                                    onLoad();
                                     controller.close();
                                     return;
                                 } else {
@@ -123,15 +123,13 @@ export default function useImageFetcher(src, onSize, onLoad) {
 
                 function onSizeHandler() {
                     if(!size_published){
-                        const tmp_image = new Image();
-                        tmp_image.onload = () => {
-                            onSize({x: tmp_image.naturalWidth ,y: tmp_image.naturalHeight});
                             size_published = true;
-                        }
+                        const tmp_image = new Image();
+                        tmp_image.onload = () => 
+                            onSize({x: tmp_image.naturalWidth ,y: tmp_image.naturalHeight});
                         tmp_image.src = durl;
                     }
                 }
-
             })
             .catch((err) => console.error(err));
         }
