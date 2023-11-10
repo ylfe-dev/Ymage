@@ -1,4 +1,7 @@
 # Ymage
+
+**Package is in beta - in production use is not recomended for now**
+<br/><br/>
 Ymage is react zero dependencies component that takes care of loading optimization, neat presentation, copyright protection,caching and some extras with just one line of code.
 
 
