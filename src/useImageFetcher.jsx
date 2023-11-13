@@ -1,19 +1,35 @@
 import {useEffect, useState} from 'react'
 
 
-export default function useImageFetcher(src, onSize, onLoad) {
-    const [dataURL, setDataURL] = useState(getImageFromCache(src))
+export default function useImageFetcher(src, onSize, onLoad, onError) {
+    const [dataURL, setDataURL] = useState(getImageFromCache())
 
    
     function clearImageCache(){
         localStorage.clear();
     }
+
     function getImageFromCache() {
-        return localStorage.getItem(src);
+        const cache = localStorage.getItem(src);
+
+        if(cache && typeof onSize === "function"){ 
+            const tmp_image = new Image();
+            tmp_image.onload = () => 
+                onSize({x: tmp_image.naturalWidth ,y: tmp_image.naturalHeight});
+            tmp_image.onerror = handleError; 
+            tmp_image.src = cache;
+        } else if(cache && typeof onLoad === "function")
+            onLoad();
+
+        return cache;
     }
 
     function setImageCache(durl) {
         localStorage.setItem(src, durl);
+    }
+
+    function handleError() {
+        onError();
     }
 
     
@@ -54,7 +70,8 @@ export default function useImageFetcher(src, onSize, onLoad) {
                                         publishDataURL();
                                     setImageCache(durl);
                                     onSizeHandler();
-                                    onLoad();
+                                    if(typeof onLoad === "function")
+                                    	onLoad();
                                     controller.close();
                                     return;
                                 } else {
@@ -122,16 +139,17 @@ export default function useImageFetcher(src, onSize, onLoad) {
                 }
 
                 function onSizeHandler() {
-                    if(!size_published){
-                            size_published = true;
+                    if(!size_published && typeof onSize === "function"){
+                        size_published = true;
                         const tmp_image = new Image();
                         tmp_image.onload = () => 
                             onSize({x: tmp_image.naturalWidth ,y: tmp_image.naturalHeight});
+                        tmp_image.onerror = handleError;
                         tmp_image.src = durl;
                     }
                 }
             })
-            .catch((err) => console.error(err));
+            .catch((err) => handleError());
         }
 
         return () => {

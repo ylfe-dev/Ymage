@@ -10,14 +10,16 @@ Ymage is react zero dependencies component that takes care of loading optimizati
 <img align="center" width="456" height="312" style="margin: 0 1rem" src="./assets/out.gif" >
 </p>
 
-✅ Advenced progressive JPEG recognition - image is rendered on first progressive scan avaiable - before `onLoad`.  <br/>
-✅ Sized, neat image placeholder<br/>
+✅ Advenced progressive JPEG recognition - image is rendered on first progressive scan avaiable - before `onLoad`.<br/>
+✅ Sized, neat image placeholders for loading, error and copyright <br/>
 ✅ Short props for styling<br/>
 ✅ Image copy protection<br/>
-✅ All image  formats are compatible - progressive JPEG is just recommended way<br/>
+✅ All image formats are compatible - progressive JPEG is just recommended way<br/>
+✅ Callback with image dimensions `onSize`<br/>
 
 
 
+<br/>
 
 ## Installation
 
@@ -28,8 +30,11 @@ $ npm install ymage
 
 Import module to `yourcode.js`:
 ```JavaScript
-import {Ymage} from 'ymage'
+import Ymage from 'ymage'
 ```
+
+
+<br/>
 
 ## Usage
 
@@ -38,14 +43,16 @@ import {Ymage} from 'ymage'
 <Ymage url="fruit.jpg" w={300} h={200} r={10}/>
 ```
 
-Or `style` equivalent:
+Using `onSize` callback:
 
 ```JavaScript
-<Ymage url="fruit.jpg" style={{width:200, height:300, borderRadius: 10}}/>
+function sizeHandler(size) 
+	console.log("Image is " + size.x + " / " + size.y)
+	
+<Ymage copyright url={"fruit.jpg"} wh={2/3} h={200} onSize={sizeHandler} />
 ```
 
 <br/>
-
 
 
 ### Styling
@@ -57,6 +64,8 @@ In order to properly create the loading shape of the Ymage, you can size it with
 |h|`height`|
 |wh|`aspect-ratio` (width / height)|
 |r|`border-radius`|
+|bg|`background-color`|
+|color|icons color|
 
 <br/>
 
@@ -69,24 +78,16 @@ In addition to following you can use other html props on Ymage like `id`, `class
 |lazy| `200px` | Viewport distance from the image that trigges loading (values like css `margin`). Set to `false` to start loading immediately.|
 |copyright|`false`|Basic anti-copy protection|
 |type|`img`|HTML syntax tag to render image (`img` or `div`).|
-|onLoad| - | Callback function on image fully fetched `onLoad(()=>{ ...your code... }))`|
-|onSize| - | Callback function with size (when using progressive jpeg it fires on first scan ready) `onSize((size) => size.x / size.y }))`|
-
+|onLoad| - | Callback function on image fully fetched |
+|onSize| - | Callback function with size (when using progressive jpeg it fires on first scan ready) returned as object in first argument `onLoad={(size) => ... size.x /size.y ...}`|
 
 <br/>
 
-```JavaScript
-<Ymage 
-	url="fruit.jpg" 
-	wh={2/3} w={200} r={10} 
-	lazy={300}
-	copyright 
-	onSize={ console.log("x/y: " + (size.x / size.y) } 
-/>
-```
 
 <p align="center">
-<img align="center" width="496" height="392" style="margin: 0 1rem" src="./assets/copy.gif" >
+    <img align="center" width="496" height="392" style="margin: 0 1rem" src="./assets/copy.gif" >
 </p>
+
+
 <br/>
 
