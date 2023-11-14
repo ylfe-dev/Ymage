@@ -1,13 +1,13 @@
 # Ymage
 
-**Package is in beta - in production use is not recomended for now**
+**Package is in beta - in-production use is not recomended for now**
 <br/><br/>
-Ymage is react zero dependencies component that takes care of loading optimization, neat presentation, copyright protection,caching and some extras with just one line of code.
+Ymage is react zero dependencies component that takes care of loading optimization, neat presentation, copyright protection,caching and some extras with just one line of code. You can see Ymage in action with [Yallery](https://github.com/ylfe-dev/Yallery).
 
 
 
 <p align="center">
-<img align="center" width="456" height="312" style="margin: 0 1rem" src="./assets/out.gif" >
+<img  width="456" height="312" style="margin: 0 1rem" src="./assets/out.gif" >
 </p>
 
 ✅ Advenced progressive JPEG recognition - image is rendered on first progressive scan avaiable - before `onLoad`.<br/>
